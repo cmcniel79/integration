@@ -100,9 +100,6 @@ const getAllListings = async () => {
     for (var i = 1; i <= totalPages; i++) {
         listings = listings.concat(await getListingsOnPage(i));
     }
-    // listings.forEach(function callback(l, i) {
-    //     console.log((i + 1) + ": " + JSON.stringify(l.id.uuid))
-    // });
     return listings;
 }
 
@@ -116,15 +113,13 @@ function shuffleArray(array) {
 const randomizeListings = async () => {
     const listings = await getAllListings();
     shuffleArray(listings);
-    listings.forEach(function update(l, i) {
+    listings.forEach(function updateListing(l, i) {
         const userId = l.id;
-        // console.log("Index: " + i + ", UserId: " + userId);
-        // console.log(l.attributes.title);
         console.log("Updating: " + l.attributes.title);
         integrationSdk.listings.update(
             {
                 id: userId,
-                metadata: { ranking: i },
+                metadata: { ranking: (i + 1) },
             },
             {
                 expand: true,
